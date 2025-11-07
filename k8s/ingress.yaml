@@ -26,4 +26,5 @@ spec:
     kind: Rule
     services:
     - name: ignition
-      port: 8043
+      port: 8088
+  tls: {}
