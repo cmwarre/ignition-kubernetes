@@ -43,10 +43,6 @@ spec:
           value: standard
         - name: TZ
           value: America/New_York
-        volumeMounts:
-        - name: ignition-data
-          mountPath: /usr/local/bin/ignition/data
-          subPath: data
         resources:
           requests:
             memory: "2Gi"
@@ -68,7 +64,3 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 10
           timeoutSeconds: 5
-      volumes:
-      - name: ignition-data
-        persistentVolumeClaim:
-          claimName: ignition-data-pvc
