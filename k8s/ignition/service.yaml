@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ignition
+  namespace: ignition
+  labels:
+    app: ignition
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8088
+    targetPort: 8088
+    protocol: TCP
+    name: http
+  - port: 8043
+    targetPort: 8043
+    protocol: TCP
+    name: https
+  - port: 9088
+    targetPort: 9088
+    protocol: TCP
+    name: metrics
+  selector:
+    app: ignition

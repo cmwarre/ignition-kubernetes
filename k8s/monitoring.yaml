@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ignition-metrics
+  namespace: ignition
+  labels:
+    app: ignition
+    release: prometheus  # Adjust this label to match your Prometheus operator setup
+spec:
+  selector:
+    matchLabels:
+      app: ignition
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics

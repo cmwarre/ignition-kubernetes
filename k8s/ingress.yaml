@@ -1,0 +1,29 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ignition-http
+  namespace: ignition
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`my-new-ignition.k8s.local`)
+    kind: Rule
+    services:
+    - name: ignition
+      port: 8088
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ignition-https
+  namespace: ignition
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`my-new-ignition.k8s.local`)
+    kind: Rule
+    services:
+    - name: ignition
+      port: 8043

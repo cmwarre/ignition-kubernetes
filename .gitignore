@@ -1,0 +1,23 @@
+# Kubernetes secrets (if generated locally)
+*.secret.yaml
+secrets/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+
+# Helm charts (if used)
+charts/
+*.tgz

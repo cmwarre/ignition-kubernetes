@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ignition
+  namespace: ignition
+  labels:
+    app: ignition
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ignition
+  template:
+    metadata:
+      labels:
+        app: ignition
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9088"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: ignition
+        image: inductiveautomation/ignition:8.1
+        ports:
+        - containerPort: 8088
+          name: http
+          protocol: TCP
+        - containerPort: 8043
+          name: https
+          protocol: TCP
+        - containerPort: 9088
+          name: metrics
+          protocol: TCP
+        env:
+        - name: ACCEPT_IGNITION_EULA
+          value: "Y"
+        - name: GATEWAY_ADMIN_USERNAME
+          value: admin
+        - name: GATEWAY_ADMIN_PASSWORD
+          value: password  # Change this in production!
+        - name: IGNITION_EDITION
+          value: standard
+        - name: TZ
+          value: America/New_York
+        volumeMounts:
+        - name: ignition-data
+          mountPath: /usr/local/bin/ignition/data
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /StatusPing
+            port: 8088
+          initialDelaySeconds: 120
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /StatusPing
+            port: 8088
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+      volumes:
+      - name: ignition-data
+        persistentVolumeClaim:
+          claimName: ignition-data-pvc
