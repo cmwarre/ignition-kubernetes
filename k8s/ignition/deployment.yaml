@@ -46,6 +46,7 @@ spec:
         volumeMounts:
         - name: ignition-data
           mountPath: /usr/local/bin/ignition/data
+          subPath: data
         resources:
           requests:
             memory: "2Gi"
